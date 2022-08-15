@@ -21,7 +21,7 @@
  * @param status
  * @return void
  */
-[[noreturn]] void LPOSWiFi::WiFiStartup(char *ssid, char *pass, int status) {
+void LPOSWiFi::WiFiStartup(char *ssid, char *pass, int status) {
 	// Check for the Wi-Fi module
 	if (WiFi.status() == WL_NO_MODULE) {
 		Serial.println("Communication with WiFi module failed!");
