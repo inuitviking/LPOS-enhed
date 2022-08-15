@@ -19,19 +19,27 @@ WiFiClient wiFiClient;			// Create the Wi-Fi client
 // - Millis
 unsigned long lastMillis = 0;
 
+/**
+ * Initialises the program
+ */
 void setup() {
-	// Initialisation
+	// Start Serial terminal
 	Serial.begin(9600);
 
-	String wifiStartupText = "Connecting to \n";	// Tell the user what we're doing
+	// Say what we're doing next
+	String wifiStartupText = "Connecting to \n";
 	wifiStartupText += SECRET_SSID;
 	Serial.println(wifiStartupText);
 
+	// Connect to Wi-Fi
 	LPOSWiFi::WiFiStartup((char *) SECRET_SSID, (char *) SECRET_PASS, status);
-	Serial.print("asdf");
+	// Say what SSID we connected to, and what IP we got.
 	LPOSWiFi::PrintWiFiStatus();
 }
 
+/***
+ * The code to be executed
+ */
 void loop() {
 // write your code here
 }
