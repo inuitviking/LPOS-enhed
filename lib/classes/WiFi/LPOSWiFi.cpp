@@ -22,7 +22,7 @@
  * @return void
  */
 [[noreturn]] void LPOSWiFi::WiFiStartup(char *ssid, char *pass, int status) {
-	// Check for the Wi-Fi module:
+	// Check for the Wi-Fi module
 	if (WiFi.status() == WL_NO_MODULE) {
 		Serial.println("Communication with WiFi module failed!");
 		while (true);
@@ -33,13 +33,13 @@
 		Serial.println("Please upgrade the firmware");
 	}
 
-	// attempt to connect to Wi-Fi network:
+	// Attempt to connect to Wi-Fi network:
 	while (status != WL_CONNECTED) {
 		Serial.print("Attempting to connect to SSID: ");
 		Serial.println(ssid);
 		// Connect to WPA/WPA2 network. Change this line if using open or WEP network:
 		status = WiFi.begin(ssid, pass);
-		// wait 2 seconds for connection:
+		// Wait 2 seconds for connection:
 		for (int i = 0; i < 2; i++) {
 			Serial.print(".");
 			delay(1000);
@@ -48,6 +48,10 @@
 	}
 }
 
+/**
+ * This method simply prints the Wifi connection SSID and IP address.
+ * @return void
+ */
 void LPOSWiFi::PrintWiFiStatus() {
 	Serial.print("SSID: ");			// Print SSID (WiFi name)
 	Serial.println(WiFi.SSID());
