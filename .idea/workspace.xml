@@ -19,7 +19,9 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6f766c15-05a6-4194-bbfd-73634b072ec8" name="Changes" comment="" />
+    <list default="true" id="6f766c15-05a6-4194-bbfd-73634b072ec8" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/platformio.ini" beforeDir="false" afterPath="$PROJECT_DIR$/platformio.ini" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -54,6 +56,7 @@
     "WebServerToolWindowFactoryState": "false",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
+    "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "clion.platformio.config"
   }
 }]]></component>
@@ -92,7 +95,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1660632392280</updated>
-      <workItem from="1660632394135" duration="132000" />
+      <workItem from="1660632394135" duration="439000" />
     </task>
     <servers />
   </component>
