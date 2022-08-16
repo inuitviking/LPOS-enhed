@@ -19,18 +19,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6f766c15-05a6-4194-bbfd-73634b072ec8" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../.idea/LPOS-enhed.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/untitled.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../CMakeLists.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../platformio.ini" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../test/README" beforeDir="false" />
-    </list>
+    <list default="true" id="6f766c15-05a6-4194-bbfd-73634b072ec8" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -39,9 +28,12 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:mkrwifi1010" />
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectApplicationVersion">
     <option name="ide" value="CLion" />
@@ -71,17 +63,17 @@
         <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Z_DUMMY_TARGET" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="LPOS-enhed" TARGET_NAME="Z_DUMMY_TARGET" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="LPOS-enhed" RUN_TARGET_NAME="Z_DUMMY_TARGET">
+    <configuration name="Z_DUMMY_TARGET" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="LPOS-enhed" TARGET_NAME="Z_DUMMY_TARGET" CONFIG_NAME="mkrwifi1010" RUN_TARGET_PROJECT_NAME="LPOS-enhed" RUN_TARGET_NAME="Z_DUMMY_TARGET">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PlatformIO Debug" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="LPOS-enhed" TARGET_NAME="Debug" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="LPOS-enhed" RUN_TARGET_NAME="Debug">
+    <configuration name="PlatformIO Debug" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="LPOS-enhed" TARGET_NAME="Debug" CONFIG_NAME="mkrwifi1010" RUN_TARGET_PROJECT_NAME="LPOS-enhed" RUN_TARGET_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PlatformIO Upload" type="platformio" factoryName="PlatformIO Upload" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="LPOS-enhed" TARGET_NAME="Production" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="LPOS-enhed" RUN_TARGET_NAME="Production">
+    <configuration name="PlatformIO Upload" type="platformio" factoryName="PlatformIO Upload" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="LPOS-enhed" TARGET_NAME="Production" CONFIG_NAME="mkrwifi1010" RUN_TARGET_PROJECT_NAME="LPOS-enhed" RUN_TARGET_NAME="Production">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -100,7 +92,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1660632392280</updated>
-      <workItem from="1660632394135" duration="7000" />
+      <workItem from="1660632394135" duration="132000" />
     </task>
     <servers />
   </component>
