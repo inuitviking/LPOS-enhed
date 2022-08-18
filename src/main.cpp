@@ -1,73 +1,136 @@
-// Includes
-// - Libraries
-#include <Arduino.h>
-#include <WiFiNINA.h>
-#include <Scheduler.h>
-// - Custom classes
-#include "WiFi/LPOSWiFi.h"
-#include "Serial/LPOSSerial.h"
-// - Custom defines
+#include <SPI.h>                  // built-in WiFi shield uses SPI
+#include <WiFiNINA.h>              // WiFi support       https://www.arduino.cc/en/Reference/WiFi101
+#include <WiFiUdp.h>
+#include <Wire.h>
+
+#include <SSLClient.h>            // https://github.com/OPEnSLab-OSU/SSLClient
+#include <PubSubClient.h>         // https://pubsubclient.knolleary.net/
+
+#include "Secrets/certificates.h"         //
+#include "Secrets/wifi.h"         //
 #include "Secrets/mqtt.h"
-#include "Secrets/wifi.h"
-#include "definitions.h"
-#include "pins.h"
 
-// Variables
-// - Wifi
-int keyIndex = 0;				// Your network key Index number (needed only for WEP).
-int status = WL_IDLE_STATUS;	// Setting the status of the Wi-Fi to "idle" as default.
-WiFiClient wiFiClient;			// Create the Wi-Fi client
-// - Millis
-unsigned long lastMillis = 0;
-const int LED = 13;
+char ssid[] = SECRET_SSID;        // network SSID
+char pass[] = SECRET_PASS;        // network password
+int status  = WL_IDLE_STATUS;     // the WiFi radio's status
 
-void setup2() {
-	Serial.print(millis());
-	Serial.println(F(":setup2"));
-	pinMode(LED, OUTPUT);
+SSLClientParameters mTLS = SSLClientParameters::fromPEM(my_cert, sizeof my_cert, my_key, sizeof my_key);
+
+void callback(char* topic, byte* payload, unsigned int length) {
+	Serial.print("Message arrived [");
+	Serial.print(topic);
+	Serial.print("] ");
+	for (int i = 0; i < length; i++) {
+		Serial.print((char)payload[i]);
+	}
+	Serial.println();
 }
 
-void loop2() {
-	// Turn LED off
-	Serial.print(millis());
-	Serial.println(F(":loop2::led off"));
-	digitalWrite(LED, LOW);
-	delay(1000);
-
-	// Turn LED on
-	Serial.print(millis());
-	Serial.println(F(":loop2::led on"));
-	digitalWrite(LED, HIGH);
-	delay(1000);
-
-	Serial.print(millis());
-	Serial.print(F(":loop2::stack="));
-	Serial.println(SchedulerClass::stack());
+void printMacAddress(byte mac[]) {
+	for (int i = 5; i >= 0; i--) {
+		if (mac[i] < 16) {
+			Serial.print("0");
+		}
+		Serial.print(mac[i], HEX);
+		if (i > 0) {
+			Serial.print(":");
+		}
+	}
+	Serial.println();
 }
 
-/**
- * Initialises the program
- */
+void printCurrentNet() {
+	// print the SSID of the network you're attached to:
+	Serial.print("SSID: ");
+	Serial.println(WiFi.SSID());
+
+	// print the MAC address of the router you're attached to:
+	byte bssid[6];
+	WiFi.BSSID(bssid);
+	Serial.print("BSSID: ");
+	printMacAddress(bssid);
+
+	// print the received signal strength:
+	long rssi = WiFi.RSSI();
+	Serial.print("signal strength (RSSI): ");
+	Serial.println(rssi);
+
+	// print the encryption type:
+	byte encryption = WiFi.encryptionType();
+	Serial.print("Encryption Type: ");
+	Serial.println(encryption, HEX);
+	Serial.println();
+}
+
+WiFiClient wifi;
+SSLClient  tls(wifi, TAs, 2, A5);         // the last value is an Analog pin to draw random input from
+
+PubSubClient mqttClient(MQTT_HOST, MQTT_PORT, callback, tls);
+// mqttClient.setServer(mqttServer, mqttPort);
+
+void reconnect() {
+	// Loop until we're reconnected
+	while (!mqttClient.connected()) {
+		Serial.print("Reconnect() attempting MQTT connection...");
+		// Attempt to connect
+		if (mqttClient.connect("mkr1010", MQTT_ACCT, MQTT_PASS)) {
+			Serial.println("connected");
+			// Once connected, publish an announcement...
+			mqttClient.publish("/hospital/", "hello world");
+			// This is a workaround to address https://github.com/OPEnSLab-OSU/SSLClient/issues/9
+			tls.flush();
+			// ... and resubscribe
+			mqttClient.subscribe("/hospital/");
+			// This is a workaround to address https://github.com/OPEnSLab-OSU/SSLClient/issues/9
+			tls.flush();
+		} else {
+			Serial.print("failed, rc=");
+			Serial.print(mqttClient.state());
+			Serial.println(" try again in 5 seconds");
+			// Wait 5 seconds before retrying
+			delay(50);
+		}
+	}
+}
+
 void setup() {
-	// Start Serial terminal
-	Serial.begin(9600);
+	// Start Serialw
+	WiFi.setHostname("mkr1010");
+	Serial.begin(115200);
+	while (!Serial);
 
-	// Say what we're doing next
-	String wifiStartupText = "Connecting to \n";
-	wifiStartupText += SECRET_SSID;
-	Serial.println(wifiStartupText);
+	// Enable mutual TLS with SSLClient
+	tls.setMutualAuthParams(mTLS);
 
-	// Connect to Wi-Fi
-	LPOSWiFi::WiFiStartup((char *) SECRET_SSID, (char *) SECRET_PASS, status);
-	// Say what SSID we connected to, and what IP we got.
-	LPOSWiFi::PrintWiFiStatus();
+	WiFi.setHostname("mkr1010");
 
-	SchedulerClass::start(setup2, loop2);
+	// check for the presence of the shield:
+	if (WiFi.status() == WL_NO_SHIELD) {
+		Serial.println("Setup: WiFi shield not present");
+		// don't continue:
+		while (true);
+	}
+
+	// attempt to connect to WiFi network:
+	while ( WiFi.status() != WL_CONNECTED) {
+		Serial.print("Setup: Attempting to connect to WPA SSID: ");
+		Serial.println(ssid);
+		// Connect to WPA/WPA2 network:
+		status = WiFi.begin(ssid, pass);
+
+		// wait 5 seconds for connection:
+		delay(50);
+	}
+
+	printCurrentNet();
+
+	Serial.println("Setup is done");
 }
 
-/**
- * The code to be executed
- */
 void loop() {
-// write your code here
+	if (!mqttClient.connected()) {
+		reconnect();
+	}
+	mqttClient.loop();
+	mqttClient.publish("/hospital/", "hello world");
 }
