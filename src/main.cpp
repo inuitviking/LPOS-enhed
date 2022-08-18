@@ -21,15 +21,13 @@ WiFiClient wiFiClient;			// Create the Wi-Fi client
 unsigned long lastMillis = 0;
 const int LED = 13;
 
-void setup2()
-{
+void setup2() {
 	Serial.print(millis());
 	Serial.println(F(":setup2"));
 	pinMode(LED, OUTPUT);
 }
 
-void loop2()
-{
+void loop2() {
 	// Turn LED off
 	Serial.print(millis());
 	Serial.println(F(":loop2::led off"));
