@@ -20,9 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6f766c15-05a6-4194-bbfd-73634b072ec8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/examples/mqtt_over_tls.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platformio.ini" beforeDir="false" afterPath="$PROJECT_DIR$/platformio.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -66,11 +66,6 @@
   }
 }</component>
   <component name="RunManager" selected="PlatformIO.PlatformIO Upload">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="Z_DUMMY_TARGET" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="LPOS-enhed" TARGET_NAME="Z_DUMMY_TARGET" CONFIG_NAME="mkrwifi1010" RUN_TARGET_PROJECT_NAME="LPOS-enhed" RUN_TARGET_NAME="Z_DUMMY_TARGET">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -105,7 +100,11 @@
       <workItem from="1660812351854" duration="9640000" />
       <workItem from="1660848662549" duration="10338000" />
       <workItem from="1660890995392" duration="1406000" />
-      <workItem from="1660892544282" duration="140000" />
+      <workItem from="1660892544282" duration="1330000" />
+      <workItem from="1660894230646" duration="101000" />
+      <workItem from="1660894593595" duration="126000" />
+      <workItem from="1660894728490" duration="14389000" />
+      <workItem from="1660914702459" duration="1000" />
     </task>
     <servers />
   </component>
