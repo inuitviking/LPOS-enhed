@@ -66,7 +66,8 @@ WiFiClient wifi;
 SSLClient  tls(wifi, TAs, 2, A5);         // the last value is an Analog pin to draw random input from
 
 PubSubClient mqttClient(MQTT_HOST, MQTT_PORT, callback, tls);
-// mqttClient.setServer(mqttServer, mqttPort);
+
+int counter = 0;
 
 void reconnect() {
 	// Loop until we're reconnected
@@ -78,24 +79,21 @@ void reconnect() {
 			// Once connected, publish an announcement...
 			mqttClient.publish("/hospital/", "hello world");
 			// This is a workaround to address https://github.com/OPEnSLab-OSU/SSLClient/issues/9
-			tls.flush();
+//			tls.flush();
 			// ... and resubscribe
 			mqttClient.subscribe("/hospital/");
 			// This is a workaround to address https://github.com/OPEnSLab-OSU/SSLClient/issues/9
-			tls.flush();
+//			tls.flush();
 		} else {
 			Serial.print("failed, rc=");
 			Serial.print(mqttClient.state());
 			Serial.println(" try again in 5 seconds");
-			// Wait 5 seconds before retrying
-			delay(50);
 		}
 	}
 }
 
 void setup() {
-	// Start Serialw
-	WiFi.setHostname("mkr1010");
+	// Start Serial
 	Serial.begin(115200);
 	while (!Serial);
 
@@ -117,9 +115,6 @@ void setup() {
 		Serial.println(ssid);
 		// Connect to WPA/WPA2 network:
 		status = WiFi.begin(ssid, pass);
-
-		// wait 5 seconds for connection:
-		delay(50);
 	}
 
 	printCurrentNet();
@@ -131,6 +126,7 @@ void loop() {
 	if (!mqttClient.connected()) {
 		reconnect();
 	}
-	mqttClient.loop();
 	mqttClient.publish("/hospital/", "hello world");
+	delay(500);
+	mqttClient.loop();
 }
