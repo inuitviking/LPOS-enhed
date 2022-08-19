@@ -20,14 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6f766c15-05a6-4194-bbfd-73634b072ec8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/compilerexplorer.settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/examples/protothreading.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/include/Secrets/certificates.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/mqtt_over_tls.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/Secrets/mqtt.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/Secrets/mqtt.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/Secrets/wifi.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/Secrets/wifi.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platformio.ini" beforeDir="false" afterPath="$PROJECT_DIR$/platformio.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -71,12 +66,12 @@
   }
 }</component>
   <component name="RunManager" selected="PlatformIO.PlatformIO Upload">
-    <configuration name="Z_DUMMY_TARGET" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="LPOS-enhed" TARGET_NAME="Z_DUMMY_TARGET" CONFIG_NAME="mkrwifi1010" RUN_TARGET_PROJECT_NAME="LPOS-enhed" RUN_TARGET_NAME="Z_DUMMY_TARGET">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+    <configuration name="Z_DUMMY_TARGET" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="LPOS-enhed" TARGET_NAME="Z_DUMMY_TARGET" CONFIG_NAME="mkrwifi1010" RUN_TARGET_PROJECT_NAME="LPOS-enhed" RUN_TARGET_NAME="Z_DUMMY_TARGET">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -108,7 +103,9 @@
       <workItem from="1660632394135" duration="1396000" />
       <workItem from="1660671000803" duration="820000" />
       <workItem from="1660812351854" duration="9640000" />
-      <workItem from="1660848662549" duration="10296000" />
+      <workItem from="1660848662549" duration="10338000" />
+      <workItem from="1660890995392" duration="1406000" />
+      <workItem from="1660892544282" duration="140000" />
     </task>
     <servers />
   </component>
