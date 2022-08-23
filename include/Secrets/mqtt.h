@@ -2,7 +2,7 @@
 #define MQTT_WRITE_API_KEY "XFBG1FSHROY1ZIUE"
 #define MQTT_READ_API_KEY "6ZTUEP198XYLQWF7"
 
-#define MQTT_HOST "192.168.95.115"
+#define MQTT_HOST "10.135.16.54"
 #define MQTT_PORT 8883
-#define MQTT_ACCT "infoscreen"
+#define MQTT_ACCT "arduino"
 #define MQTT_PASS "5k1nnyL4773"

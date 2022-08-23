@@ -21,7 +21,7 @@
  * @param status
  * @return void
  */
-void LPOSWiFi::WiFiStartup(char *ssid, char *pass, int status) {
+void LPOSWiFi::ConnectToWiFi(char *ssid, char *pass, int status) {
 	// Check for the Wi-Fi module
 	if (WiFi.status() == WL_NO_MODULE) {
 		Serial.println("Communication with WiFi module failed!");
@@ -37,19 +37,19 @@ void LPOSWiFi::WiFiStartup(char *ssid, char *pass, int status) {
 	while (status != WL_CONNECTED) {
 		Serial.print("Attempting to connect to SSID: ");
 		Serial.println(ssid);
-		// Connect to WPA/WPA2 network. Change this line if using open or WEP network:
+		// Connect to WPA/WPA2 network.
 		status = WiFi.begin(ssid, pass);
 		// Wait 2 seconds for connection:
 		for (int i = 0; i < 2; i++) {
 			Serial.print(".");
 			delay(1000);
 		}
-		LPOSSerial::Clear();
 	}
+	LPOSSerial::Clear();
 }
 
 /**
- * This method simply prints the Wifi connection SSID and IP address.
+ * This method simply prints the Wifi connection SSID, IP and MAC address.
  * @return void
  */
 void LPOSWiFi::PrintWiFiStatus() {
@@ -57,4 +57,28 @@ void LPOSWiFi::PrintWiFiStatus() {
 	Serial.println(WiFi.SSID());
 	Serial.print("IP Address: ");	// Print local IP address
 	Serial.println(WiFi.localIP());
+	Serial.print("MAC: ");
+	Serial.println(GetMacAddress());
+}
+
+/**
+ * Fetches the MAC address based off of a byte array.
+ * @param mac - byte array
+ * @return String
+ */
+String LPOSWiFi::GetMacAddress() {
+	byte bssid[6];
+	WiFi.BSSID(bssid);
+	String macAddr = "";
+	for (int i = 5; i >= 0; i--) {
+		if (bssid[i] < 16) {
+			macAddr = macAddr + String('0');
+		}
+		macAddr = macAddr + String(bssid[i], HEX);
+		if (i > 0) {
+			Serial.print(":");
+			macAddr = macAddr + String(':');
+		}
+	}
+	return macAddr;
 }
