@@ -20,8 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6f766c15-05a6-4194-bbfd-73634b072ec8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/examples/heartrate.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/classes/Heartbeat.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/classes/Heartbeat.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/Secrets/wifi.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/Secrets/wifi.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/platformio.ini" beforeDir="false" afterPath="$PROJECT_DIR$/platformio.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
     </list>
@@ -51,28 +53,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "nodejs_package_manager_path": "npm",
-    "serialMonitor.commands": "wert",
-    "settings.editor.selected.configurable": "serialmonitor.settings",
-    "structure.view.defaults.are.configured": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;serialMonitor.commands&quot;: &quot;wert&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;serialmonitor.settings&quot;,
+    &quot;structure.view.defaults.are.configured&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="PlatformIO.PlatformIO Upload">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+    <configuration name="Z_DUMMY_TARGET" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="LPOS-enhed" TARGET_NAME="Z_DUMMY_TARGET" CONFIG_NAME="mkrwifi1010" RUN_TARGET_PROJECT_NAME="LPOS-enhed" RUN_TARGET_NAME="Z_DUMMY_TARGET">
       <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Z_DUMMY_TARGET" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="LPOS-enhed" TARGET_NAME="Z_DUMMY_TARGET" CONFIG_NAME="mkrwifi1010" RUN_TARGET_PROJECT_NAME="LPOS-enhed" RUN_TARGET_NAME="Z_DUMMY_TARGET">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -112,7 +114,8 @@
       <workItem from="1660894728490" duration="14389000" />
       <workItem from="1660914702459" duration="174000" />
       <workItem from="1661150324671" duration="236000" />
-      <workItem from="1661154140188" duration="17589000" />
+      <workItem from="1661154140188" duration="17655000" />
+      <workItem from="1661236974040" duration="4250000" />
     </task>
     <servers />
   </component>
