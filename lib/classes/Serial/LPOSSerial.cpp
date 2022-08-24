@@ -4,11 +4,6 @@
 // - Custom
 #include "LPOSSerial.h"
 
-/**
- * This method simply clears the serial terminal window.
- *
- * @return void
- */
 void LPOSSerial::Clear() {
 	Serial.write(27);		// ESC command
 	Serial.print("[2J");	// clear screen command

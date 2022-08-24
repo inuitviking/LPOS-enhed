@@ -8,6 +8,11 @@
 
 class LPOSSerial {
 public:
+	/**
+	 * This method simply clears the serial terminal window (Putty specific)
+	 *
+	 * @return void
+	 */
 	static void Clear();
 };
 

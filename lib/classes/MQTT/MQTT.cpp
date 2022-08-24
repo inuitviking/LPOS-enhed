@@ -6,9 +6,11 @@
 #include "../../include/definitions.h"
 
 void MQTT::CallBack(char *topic, byte *payload, unsigned int length) {
+	// Say on which topic we received a message.
 	Serial.print("Message arrived [");
 	Serial.print(topic);
 	Serial.print("] ");
+	// Print payload.
 	for (int i = 0; i < length; i++) {
 		Serial.print((char)payload[i]);
 	}
@@ -23,7 +25,7 @@ PubSubClient MQTT::Reconnect(PubSubClient mqttClient) {
 		if (mqttClient.connect(HOSTNAME, MQTT_ACCT, MQTT_PASS)) {
 			Serial.println("connected");
 			// Once connected, publish an announcement...
-			mqttClient.publish("hospital/", "hello world");
+			mqttClient.publish("hospital/", HOSTNAME);
 			// ... and resubscribe
 			mqttClient.subscribe("hospital/");
 		} else {

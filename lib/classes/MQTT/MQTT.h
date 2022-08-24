@@ -1,7 +1,3 @@
-//
-// Created by angus on 8/23/22.
-//
-
 #ifndef LPOS_ENHED_MQTT_H
 #define LPOS_ENHED_MQTT_H
 

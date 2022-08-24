@@ -90,12 +90,17 @@ void setup () {
  * Loops forever.
  */
 void loop () {
+	/*
+	 * If we're disconnected from the MQTT broker, attempt reconnection.
+	 * Will loop until connected to MQTT broker.
+	 */
 	if (!mqttClient.connected()) {
 		mqttClient = MQTT::Reconnect(mqttClient);
 	}
 
+	// Send BPM over MQTT with the help of a separate thread.
 	PT_SCHEDULE(SendBPMoverMQTT(&ptBPMOverMQTT));
 
-	delay(50);
+	// Loop MQTT so we also can receive messages.
 	mqttClient.loop();
 }

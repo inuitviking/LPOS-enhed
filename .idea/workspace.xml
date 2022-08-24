@@ -25,6 +25,8 @@
       <change beforePath="$PROJECT_DIR$/lib/classes/Heartbeat/Heartbeat.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/classes/Heartbeat/Heartbeat.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/classes/MQTT/MQTT.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/lib/classes/MQTT/MQTT.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/classes/MQTT/MQTT.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/classes/MQTT/MQTT.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/classes/Serial/LPOSSerial.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/lib/classes/Serial/LPOSSerial.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/classes/Serial/LPOSSerial.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/classes/Serial/LPOSSerial.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -117,7 +119,7 @@
       <workItem from="1661154140188" duration="17655000" />
       <workItem from="1661236974040" duration="14923000" />
       <workItem from="1661327526377" duration="8520000" />
-      <workItem from="1661338304785" duration="850000" />
+      <workItem from="1661338304785" duration="1325000" />
     </task>
     <servers />
   </component>
