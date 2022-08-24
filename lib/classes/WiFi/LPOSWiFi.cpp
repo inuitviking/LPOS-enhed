@@ -5,22 +5,6 @@
 #include "LPOSWiFi.h"
 #include "Serial/LPOSSerial.h"
 
-/**
- * Connects to an SSID.
- * Does not return anything.
- *
- * In detail and order, the method does the following:
- * 1. Checks if the Wifi module is installed
- * 2. Checks if the firmware version is up to date
- * 3. Connects to the specified SSID
- *   a. If an attempt fails, it will reattempt a connection every 2 seconds
- *   b. It will do this until it connects to the defined SSID
- *
- * @param ssid
- * @param pass
- * @param status
- * @return void
- */
 void LPOSWiFi::ConnectToWiFi(char *ssid, char *pass, int status) {
 	// Check for the Wi-Fi module
 	if (WiFi.status() == WL_NO_MODULE) {
@@ -48,10 +32,6 @@ void LPOSWiFi::ConnectToWiFi(char *ssid, char *pass, int status) {
 	LPOSSerial::Clear();
 }
 
-/**
- * This method simply prints the Wifi connection SSID, IP and MAC address.
- * @return void
- */
 void LPOSWiFi::PrintWiFiStatus() {
 	Serial.print("SSID: ");			// Print SSID (WiFi name)
 	Serial.println(WiFi.SSID());
@@ -61,11 +41,6 @@ void LPOSWiFi::PrintWiFiStatus() {
 	Serial.println(GetMacAddress());
 }
 
-/**
- * Fetches the MAC address based off of a byte array.
- * @param mac - byte array
- * @return String
- */
 String LPOSWiFi::GetMacAddress() {
 	byte bssid[6];
 	WiFi.BSSID(bssid);
