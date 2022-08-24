@@ -3,7 +3,6 @@
 #include <SPI.h>			// Required by the ECCX08CSR library.
 #include <Wire.h>			// Required by the ECCX08CSR library.
 #include <WiFiNINA.h>		// Required to connect to Wi-Fi
-#include <WiFiUdp.h>		// Required?
 #include <SSLClient.h>		// https://github.com/OPEnSLab-OSU/SSLClient
 #include <PubSubClient.h>	// https://pubsubclient.knolleary.net/
 
@@ -66,7 +65,6 @@ void setup () {
  * Loops forever.
  */
 void loop () {
-	LPOSSerial::Clear();
 	if (!mqttClient.connected()) {
 		mqttClient = MQTT::Reconnect(mqttClient);
 	}
