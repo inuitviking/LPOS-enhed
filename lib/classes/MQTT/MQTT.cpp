@@ -7,6 +7,7 @@
 #include "MQTT.h"
 //#include "Secrets/mqtt.h"
 #include "../../include/Secrets/mqtt.h"
+#include "../../include/definitions.h"
 
 void MQTT::CallBack(char *topic, byte *payload, unsigned int length) {
 	Serial.print("Message arrived [");
@@ -23,7 +24,7 @@ PubSubClient MQTT::Reconnect(PubSubClient mqttClient) {
 	while (!mqttClient.connected()) {
 		Serial.print("Reattempting MQTT connection...");
 		// Attempt to connect
-		if (mqttClient.connect("mkr1010", MQTT_ACCT, MQTT_PASS)) {
+		if (mqttClient.connect(HOSTNAME, MQTT_ACCT, MQTT_PASS)) {
 			Serial.println("connected");
 			// Once connected, publish an announcement...
 			mqttClient.publish("hospital/", "hello world");

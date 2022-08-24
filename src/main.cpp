@@ -17,6 +17,7 @@
 #include "Secrets/wifi.h"			// Where we store Wi-Fi credentials
 #include "Secrets/mqtt.h"			// Where we store MQTT credentials
 #include "WiFi/LPOSWiFi.h"
+#include "definitions.h"
 
 // Variables
 Heartbeat heartbeat;					// Create a Heartbeat
@@ -28,6 +29,8 @@ WiFiClient wiFiClient;
 SSLClient tlsClient(wiFiClient, TAs, 2, A1); // The last value is an Analog pin to draw random input from
 PubSubClient mqttClient(MQTT_HOST, MQTT_PORT, MQTT::CallBack, tlsClient);
 int counter = 0;
+int lastBPM = 0;
+int currentBPM = 0;
 
 /**
  * Initialises the program.
@@ -39,7 +42,7 @@ void setup () {
 	// Enable mutual TLS with SSLClient
 	tlsClient.setMutualAuthParams(mTLS);
 
-	WiFi.setHostname("RUM_7_SENG_2");
+	WiFi.setHostname(HOSTNAME);
 
 	// check for the presence of the shield:
 	if (WiFi.status() == WL_NO_SHIELD) {
@@ -68,8 +71,11 @@ void loop () {
 		mqttClient = MQTT::Reconnect(mqttClient);
 	}
 	LPOSWiFi::PrintWiFiStatus();
-	String bpm = String(heartbeat.GetBPM(A1, LED_BUILTIN));
-	mqttClient.publish("hospital/", bpm.c_str());
+	currentBPM = heartbeat.GetBPM(A1, LED_BUILTIN);
+	if (currentBPM != lastBPM) {
+		mqttClient.publish("hospital/", String(currentBPM).c_str());
+		lastBPM = currentBPM;
+	}
 	delay(50);
 	mqttClient.loop();
 }
