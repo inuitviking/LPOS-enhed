@@ -1,10 +1,9 @@
 // Official libraries
-#include <Arduino.h>		// Require to easier talk with the Arduino
-#include <SPI.h>			// Required by the ECCX08CSR library.
-#include <Wire.h>			// Required by the ECCX08CSR library.
-#include <WiFiNINA.h>		// Required to connect to Wi-Fi
-#include <SSLClient.h>		// https://github.com/OPEnSLab-OSU/SSLClient
-#include <PubSubClient.h>	// https://pubsubclient.knolleary.net/
+#include <Arduino.h>		// Require to easier talk with the Arduino.
+#include <WiFiNINA.h>		// Required to connect to Wi-Fi.
+#include <SSLClient.h>		// Required to for encrypted connections.
+#include <PubSubClient.h>	// Required to send over MQTT.
+#include <protothreads.h>	// Required to make threading available in Arduino.
 
 // Own libraries
 #include "Heartbeat/Heartbeat.h"	// Library for listening to the pulse sensor
@@ -68,10 +67,15 @@ void loop () {
 	if (!mqttClient.connected()) {
 		mqttClient = MQTT::Reconnect(mqttClient);
 	}
-	LPOSWiFi::PrintWiFiStatus();
 	currentBPM = heartbeat.GetBPM(A1, LED_BUILTIN);
 	if (currentBPM != lastBPM) {
-		mqttClient.publish("hospital/", String(currentBPM).c_str());
+		// The reason we're using String here instead of char *, was to figure out string concatenation.
+		// Unfortunately, this way is pretty heavy, but there should be a better way.
+		// TODO: Optimize string concatenation
+		String topic = String("hospital/");
+		topic = topic + HOSTNAME + "/bpm/";
+		// Casting with (char *) resulted in very weird errors on the infoscreen side. Instead of, for example "76" it could send "x�Cpx!Cp"
+		mqttClient.publish(topic.c_str(), String(currentBPM).c_str());
 		lastBPM = currentBPM;
 	}
 	delay(50);
