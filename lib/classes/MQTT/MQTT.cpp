@@ -1,11 +1,7 @@
-//
-// Created by angus on 8/23/22.
-//
-
 #include <Arduino.h>
 #include <PubSubClient.h>
+#include <protothreads.h>
 #include "MQTT.h"
-//#include "Secrets/mqtt.h"
 #include "../../include/Secrets/mqtt.h"
 #include "../../include/definitions.h"
 

@@ -23,12 +23,36 @@ int status  = WL_IDLE_STATUS;			// The Wi-Fi radio's status; default is idle.
 // Define our certificate and key into our SSLClient
 SSLClientParameters mTLS = SSLClientParameters::fromPEM(arduinoCertificate, sizeof arduinoCertificate, arduinoKey, sizeof arduinoKey);
 unsigned long lastMillis = millis();	// Get the last millis.
-WiFiClient wiFiClient;
-SSLClient tlsClient(wiFiClient, TAs, 2, A1); // The last value is an Analog pin to draw random input from
-PubSubClient mqttClient(MQTT_HOST, MQTT_PORT, MQTT::CallBack, tlsClient);
-int counter = 0;
-int lastBPM = 0;
-int currentBPM = 0;
+WiFiClient wiFiClient;					// Define the wifi client
+SSLClient tlsClient(wiFiClient, TAs, 2, A1);	// Define the SSLClient. The last value is an Analog pin to draw random input from.
+PubSubClient mqttClient(MQTT_HOST, MQTT_PORT, MQTT::CallBack, tlsClient);		// Define the PubSubClient
+int lastBPM = 0;		// Set the last BPM
+int currentBPM = 0;		// Set the current BPM
+pt ptBPMOverMQTT;		// Define a protothread to be used.
+
+// *************
+// * FUNCTIONS *
+// *************
+/**
+ * Send the BPM collected over MQTT over TLS on a separate thread.
+ * @param pt - The protothread to use.
+ * @return int
+ */
+int SendBPMoverMQTT (struct pt* pt) {
+	PT_BEGIN(pt);
+		currentBPM = heartbeat.GetBPM(A1, LED_BUILTIN);
+		if (currentBPM != lastBPM) {
+		// The reason we're using String here instead of char *, was to figure out string concatenation.
+		// Unfortunately, this way is pretty heavy, but there should be a better way.
+		// TODO: Optimize string concatenation
+		String topic = String("hospital/");
+		topic = topic + HOSTNAME + "/bpm/";
+		// Casting with (char *) resulted in very weird errors on the infoscreen side. Instead of, for example "76" it could send "x�Cpx!Cp"
+		mqttClient.publish(topic.c_str(), String(currentBPM).c_str());
+		lastBPM = currentBPM;
+		}
+	PT_END(pt);
+}
 
 /**
  * Initialises the program.
@@ -58,6 +82,8 @@ void setup () {
 	}
 
 	LPOSWiFi::PrintWiFiStatus();
+
+	PT_INIT(&ptBPMOverMQTT);
 }
 
 /**
@@ -67,17 +93,9 @@ void loop () {
 	if (!mqttClient.connected()) {
 		mqttClient = MQTT::Reconnect(mqttClient);
 	}
-	currentBPM = heartbeat.GetBPM(A1, LED_BUILTIN);
-	if (currentBPM != lastBPM) {
-		// The reason we're using String here instead of char *, was to figure out string concatenation.
-		// Unfortunately, this way is pretty heavy, but there should be a better way.
-		// TODO: Optimize string concatenation
-		String topic = String("hospital/");
-		topic = topic + HOSTNAME + "/bpm/";
-		// Casting with (char *) resulted in very weird errors on the infoscreen side. Instead of, for example "76" it could send "x�Cpx!Cp"
-		mqttClient.publish(topic.c_str(), String(currentBPM).c_str());
-		lastBPM = currentBPM;
-	}
+
+	PT_SCHEDULE(SendBPMoverMQTT(&ptBPMOverMQTT));
+
 	delay(50);
 	mqttClient.loop();
 }

@@ -16,6 +16,11 @@ public:
 	 */
 	static void CallBack(char* topic, byte* payload, unsigned int length);
 
+	/**
+	 *This tries to reconnect to the MQTT broker.
+	 * @param mqttClient
+	 * @return PubSubClient - The same PubSubClient that is in the argument is returned with all necessary updates.
+	 */
 	static PubSubClient Reconnect(PubSubClient mqttClient);
 };
 

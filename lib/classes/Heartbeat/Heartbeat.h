@@ -2,6 +2,8 @@
 #define LPOS_ENHED_HEARTBEAT_H
 
 
+#include "PubSubClient.h"
+
 class Heartbeat {
 protected:
 	// Properties
@@ -12,6 +14,7 @@ protected:
 	int recordTime = 5;
 	int bpm = 0;
 	int ledState = LOW;
+	int counter = 0;
 	unsigned long lastMillis = millis();
 
 public:

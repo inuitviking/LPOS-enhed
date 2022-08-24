@@ -2,7 +2,10 @@
 // Created by angus on 8/23/22.
 //
 #include <Arduino.h>
+#include <protothreads.h>
 #include "Heartbeat.h"
+#include "../../include/definitions.h"
+#include "PubSubClient.h"
 
 int Heartbeat::GetBPM (uint8_t pinNumber, uint8_t ledPin) {
 	int sensorValue = analogRead(pinNumber);
