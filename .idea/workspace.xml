@@ -21,11 +21,6 @@
   <component name="ChangeListManager">
     <list default="true" id="6f766c15-05a6-4194-bbfd-73634b072ec8" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/Secrets/mqtt.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/Secrets/mqtt.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/Secrets/wifi.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/Secrets/wifi.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/definitions.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/definitions.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/pins.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/pins.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,7 +113,9 @@
       <workItem from="1661236974040" duration="14923000" />
       <workItem from="1661327526377" duration="8520000" />
       <workItem from="1661338304785" duration="1362000" />
-      <workItem from="1661367459723" duration="2826000" />
+      <workItem from="1661367459723" duration="3035000" />
+      <workItem from="1661423657713" duration="1255000" />
+      <workItem from="1661494475387" duration="1892000" />
     </task>
     <servers />
   </component>
