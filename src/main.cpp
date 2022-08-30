@@ -51,7 +51,7 @@ int SendBPMoverMQTT (struct pt* pt) {
 		// Unfortunately, this way is pretty heavy, but there should be a better way.
 		// TODO: Optimize string concatenation
 		String topic = R"(hospital/)";																	// Create a topic string.
-		topic = topic + HOSTNAME + "/bpm/";
+		topic = topic + "bpm/" + HOSTNAME;
 		// Casting with (char *) resulted in very weird errors on the infoscreen side. Instead of, for example "76" it could send "x�Cpx!Cp".
 		mqttClient.publish(topic.c_str(), String(currentBPM).c_str());					// Send the current BPM to the defined topic.
 		lastBPM = currentBPM;																			// Update last BPM
