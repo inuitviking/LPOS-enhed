@@ -33,7 +33,12 @@ SSLClient tlsClient(wiFiClient, TAs, 2, PULSE_SENSOR);	// Define the SSLClient. 
 PubSubClient mqttClient(MQTT_HOST, MQTT_PORT, MQTT::CallBack, tlsClient);					// Define the PubSubClient.
 int lastBPM = 0;																						// Set the last BPM.
 int currentBPM = 0;																						// Set the current BPM.
-pt ptBPMOverMQTT;																						// Define a proto-thread to be used.
+int calledNurse = 0;																					// Set whether we have called a nurse or not.
+unsigned long buttonPushes[2] = {0, 0};														// Store two button pushes with millis.
+int buttonDown = 0;
+int buttonPushed = 0;
+pt ptBPMOverMQTT;																						// Define a proto-thread for sending BPM over MQTT.
+pt ptCallNurse;																							// Define a proto-thread for calling a nurse.
 
 // *************
 // * FUNCTIONS *
@@ -59,6 +64,49 @@ int SendBPMoverMQTT (struct pt* pt) {
 	PT_END(pt)																							// End proto-thread
 }
 
+/**
+ * Send a "1" over MQTT over TLS on a separate thread.
+ * @param pt
+ * @return int
+ */
+int CallNurse (struct pt* pt) {
+	PT_BEGIN(pt);
+		String topic =  R"(hospital/)";
+		topic = topic + "call/" + HOSTNAME;
+
+		if (millis() - buttonPushes[0] > 1000) {
+			buttonPushes[0] = 0;
+			buttonPushes[1] = 0;
+			buttonPushed = 0;
+		}
+
+		if (digitalRead(BUTTON_PIN) == 0 && buttonDown == 0) {
+			buttonDown = 1;
+		}
+
+		if (buttonDown == 1 && buttonPushed == 1) {
+			if (calledNurse == 1) {
+				calledNurse = 0;
+				mqttClient.publish(topic.c_str(), "0");
+			}
+			buttonDown = 0;
+			buttonPushed = 0;
+			buttonPushes[1] = millis();
+		}
+
+		if (buttonDown == 1 && digitalRead(BUTTON_PIN) == 1) {
+			buttonDown = 0;
+			buttonPushed = 1;
+			buttonPushes[0] = millis();
+			if (calledNurse == 0) {
+				calledNurse = 1;
+				mqttClient.publish(topic.c_str(), "1");
+			}
+		}
+
+	PT_END(pt);
+}
+
 // ***********
 // * PROGRAM *
 // ***********
@@ -68,6 +116,7 @@ int SendBPMoverMQTT (struct pt* pt) {
 void setup () {
 	Serial.begin(115200);										// Set the baud rate to 115200
 	pinMode(LED_BUILTIN, OUTPUT);						// Set the builtin LED to output, so we can use it
+	pinMode(BUTTON_PIN, INPUT_PULLUP);					// Set button pin to PULLUP, as it is used for a button
 
 	tlsClient.setMutualAuthParams(mTLS);							// Enable mutual TLS with SSLClient
 	WiFi.setHostname(HOSTNAME);										// Set the Wi-Fi hostname
@@ -96,6 +145,7 @@ void loop () {
 	}
 
 	PT_SCHEDULE(SendBPMoverMQTT(&ptBPMOverMQTT));						// Send BPM over MQTT with the help of a separate thread.
+	PT_SCHEDULE(CallNurse(&ptCallNurse));								// Call a nurse
 
 	mqttClient.loop();														// Loop MQTT so we also can receive messages.
 }
