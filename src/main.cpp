@@ -21,28 +21,63 @@
 // *************
 // * VARIABLES *
 // *************
-Heartbeat heartbeat;																					// Define a heartbeat object.
-int status  = WL_IDLE_STATUS;																			// The Wi-Fi radio's status; default is idle.
+Heartbeat heartbeat;																		// Define a heartbeat object.
+int status  = WL_IDLE_STATUS;																// The Wi-Fi radio's status; default is idle.
 SSLClientParameters mTLS = SSLClientParameters::fromPEM(arduinoCertificate,					// Define our certificate and key into our SSLClient. (Here we define the certificate).
 														sizeof arduinoCertificate,			// (Here we define the size of the certificate).
 														arduinoKey,							// (Here we define the certificate key).
 														sizeof arduinoKey);					// (Here we define the size of the certificate key).
-unsigned long lastMillis = millis();																	// Get the last millis.
-WiFiClient wiFiClient;																					// Define the Wi-Fi client
-SSLClient tlsClient(wiFiClient, TAs, 2, PULSE_SENSOR);	// Define the SSLClient. The last value is an Analog pin to draw random input from.
+unsigned long lastMillis = millis();														// Get the last millis.
+WiFiClient wiFiClient;																		// Define the Wi-Fi client
+SSLClient tlsClient(wiFiClient, TAs, 2, PULSE_SENSOR);										// Define the SSLClient. The last value is an Analog pin to draw random input from.
 PubSubClient mqttClient(MQTT_HOST, MQTT_PORT, MQTT::CallBack, tlsClient);					// Define the PubSubClient.
-int lastBPM = 0;																						// Set the last BPM.
-int currentBPM = 0;																						// Set the current BPM.
-int calledNurse = 0;																					// Set whether we have called a nurse or not.
-unsigned long buttonPushes[2] = {0, 0};														// Store two button pushes with millis.
-int buttonDown = 0;
-int buttonPushed = 0;
-pt ptBPMOverMQTT;																						// Define a proto-thread for sending BPM over MQTT.
-pt ptCallNurse;																							// Define a proto-thread for calling a nurse.
+int lastBPM = 0;																			// Set the last BPM.
+int currentBPM = 0;																			// Set the current BPM.
+bool buttonDown = false;																	// We want to check if the button is down.
+bool buttonUp = true;																		// We want to check if the button is up.
+bool buttonPushed = false;																	// We want to check if the button has gone through a down+up.
+unsigned int buttonPushes = 0;																// We want to count button pushes.
+unsigned int buttonDownCount = 0;															// We want to count amount of button downs.
+unsigned int buttonUpCount = 0;																// We want to count amount of button ups.
+unsigned int buttonMillis = 0;																// This is used to reset the button variables.
+bool nurseCalled = false;																	// Nurses are not called by default.
+int speed = 40;																				// Delay adjustment.
+pt ptBPMOverMQTT;																			// Define a proto-thread for sending BPM over MQTT.
+pt ptCallNurse;																				// Define a proto-thread for calling a nurse.
 
 // *************
 // * FUNCTIONS *
 // *************
+/**
+ * Play a positive jingle
+ */
+void jingle () {
+	tone(BUZZER, 300);
+	delay(speed);
+	noTone(BUZZER);
+	tone(BUZZER, 600);
+	delay(speed);
+	noTone(BUZZER);
+	tone(BUZZER, 1000);
+	delay(speed);
+	noTone(BUZZER);
+}
+
+/**
+ * Play a cancellation jingle
+ */
+void reverseJingle () {
+	tone(BUZZER, 1000);
+	delay(speed);
+	noTone(BUZZER);
+	tone(BUZZER, 600);
+	delay(speed);
+	noTone(BUZZER);
+	tone(BUZZER, 300);
+	delay(speed);
+	noTone(BUZZER);
+}
+
 /**
  * Send the BPM collected over MQTT over TLS on a separate thread.
  * @param pt - The proto-thread to use.
@@ -65,7 +100,7 @@ int SendBPMoverMQTT (struct pt* pt) {
 }
 
 /**
- * Send a "1" over MQTT over TLS on a separate thread.
+ * Send a 1 or a 0 according to if the user wants to call or cancel a call to a nurse.
  * @param pt
  * @return int
  */
@@ -74,36 +109,59 @@ int CallNurse (struct pt* pt) {
 		String topic =  R"(hospital/)";
 		topic = topic + "call/" + HOSTNAME;
 
-		if (millis() - buttonPushes[0] > 1000) {
-			buttonPushes[0] = 0;
-			buttonPushes[1] = 0;
-			buttonPushed = 0;
+		// Reset the button variables
+		if (millis() - buttonMillis > 1000) {
+			buttonUpCount = 0;
+			buttonDownCount = 0;
+			buttonPushes = 0;
+			buttonMillis = millis();
 		}
 
-		if (digitalRead(BUTTON_PIN) == 0 && buttonDown == 0) {
-			buttonDown = 1;
+		// Register a down
+		if (digitalRead(BUTTON_PIN) == 0 && !buttonDown) {
+			buttonDown = true;
+			buttonPushed = true;
+			buttonUp = false;
+			buttonDownCount++;
+			buttonMillis = millis();
 		}
 
-		if (buttonDown == 1 && buttonPushed == 1) {
-			if (calledNurse == 1) {
-				calledNurse = 0;
-				mqttClient.publish(topic.c_str(), "0");
-			}
-			buttonDown = 0;
-			buttonPushed = 0;
-			buttonPushes[1] = millis();
+		// Register an up
+		if (digitalRead(BUTTON_PIN) == 1 && !buttonUp) {
+			buttonDown = false;
+			buttonUp = true;
+			// We don't make buttonPushed false just yet, we need to check its boolean value later.
+			buttonUpCount++;
+			buttonMillis = millis();
 		}
 
-		if (buttonDown == 1 && digitalRead(BUTTON_PIN) == 1) {
-			buttonDown = 0;
-			buttonPushed = 1;
-			buttonPushes[0] = millis();
-			if (calledNurse == 0) {
-				calledNurse = 1;
-				mqttClient.publish(topic.c_str(), "1");
-			}
+		// Increment the amount the button has been pushed.
+		if (buttonDownCount != 0 && buttonDownCount == buttonUpCount && buttonPushed) {
+			buttonPushes++;
+			// Now we can false the variable, as we only want to increment once the button has completed a down+up.
+			buttonPushed = false;
+			buttonMillis = millis();
 		}
 
+		// When button is pushed once, a nurse is called.
+		if (buttonPushes == 1 && !nurseCalled) {
+			nurseCalled = true;
+			mqttClient.publish(topic.c_str(), "1");
+			jingle();
+		}
+
+		// When button is pushed more than once, the nurse call is cancelled and the button variables are reset.
+		if (buttonPushes > 1 && nurseCalled) {
+			nurseCalled = false;
+			mqttClient.publish(topic.c_str(), "0");
+			reverseJingle();
+		}
+
+		if (nurseCalled) {
+			digitalWrite(LED_PIN, HIGH);
+		} else {
+			digitalWrite(LED_PIN, LOW);
+		}
 	PT_END(pt);
 }
 
@@ -134,6 +192,7 @@ void setup () {
 
 	LPOSWiFi::PrintWiFiStatus();											// Print the Wi-Fi connection status.
 	PT_INIT(&ptBPMOverMQTT);												// Initialize the proto-thread for ptBPMOverMQTT
+	PT_INIT(&ptCallNurse);													// Initialize the proto-thread for ptCallNurse
 }
 
 /**
